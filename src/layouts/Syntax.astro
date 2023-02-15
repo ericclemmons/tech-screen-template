@@ -97,9 +97,8 @@ const navigation = [
     ],
   },
 ];
-const router = typeof window === "object" ? window.location : {};
-const isHomePage =
-  typeof window === "object" ? window.location.pathname === "/" : true;
+const router = Astro.url;
+const isHomePage = router.pathname === "/";
 let allLinks = navigation.flatMap((section) => section.links);
 let linkIndex = allLinks.findIndex((link) => link.href === router.pathname);
 let previousPage = allLinks[linkIndex - 1];
