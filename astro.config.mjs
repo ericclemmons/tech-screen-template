@@ -1,18 +1,16 @@
+import image from "@astrojs/image";
+import mdx from "@astrojs/mdx";
+import react from "@astrojs/react";
+import tailwind from "@astrojs/tailwind";
 import { defineConfig } from "astro/config";
 
-// https://astro.build/config
-import mdx from "@astrojs/mdx";
-
-// https://astro.build/config
-import react from "@astrojs/react";
-
-// https://astro.build/config
-import tailwind from "@astrojs/tailwind";
-
-// https://astro.build/config
-import image from "@astrojs/image";
-
-// https://astro.build/config
 export default defineConfig({
-  integrations: [mdx(), react(), tailwind(), image()],
+  integrations: [
+    mdx(),
+    react(),
+    tailwind(),
+    image({
+      serviceEntryPoint: "@astrojs/image/sharp",
+    }),
+  ],
 });
