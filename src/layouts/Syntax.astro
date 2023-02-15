@@ -1,0 +1,332 @@
+---
+import { Header } from "@/components/Header";
+import { Hero } from "@/components/Hero";
+import { Navigation } from "@/components/Navigation";
+import { Prose } from "@/components/Prose";
+
+import "@/styles/tailwind.css";
+
+const { frontmatter } = Astro.props;
+const { title = "Tech Screen", description = "Tech Screen Starter" } =
+  frontmatter;
+
+// TODO
+function collectHeadings(nodes, slugify = slugifyWithCounter()) {
+  let sections = [];
+
+  for (let node of nodes) {
+    if (node.name === "h2" || node.name === "h3") {
+      let title = getNodeText(node);
+      if (title) {
+        let id = slugify(title);
+        node.attributes.id = id;
+        if (node.name === "h3") {
+          if (!sections[sections.length - 1]) {
+            throw new Error(
+              "Cannot add `h3` to table of contents without a preceding `h2`"
+            );
+          }
+          sections[sections.length - 1].children.push({
+            ...node.attributes,
+            title,
+          });
+        } else {
+          sections.push({ ...node.attributes, title, children: [] });
+        }
+      }
+    }
+
+    sections.push(...collectHeadings(node.children ?? [], slugify));
+  }
+
+  return sections;
+}
+const navigation = [
+  {
+    title: "Introduction",
+    links: [
+      { title: "Getting started", href: "/" },
+      { title: "Installation", href: "/docs/installation" },
+    ],
+  },
+  {
+    title: "Core concepts",
+    links: [
+      { title: "Understanding caching", href: "/docs/understanding-caching" },
+      {
+        title: "Predicting user behavior",
+        href: "/docs/predicting-user-behavior",
+      },
+      { title: "Basics of time-travel", href: "/docs/basics-of-time-travel" },
+      {
+        title: "Introduction to string theory",
+        href: "/docs/introduction-to-string-theory",
+      },
+      { title: "The butterfly effect", href: "/docs/the-butterfly-effect" },
+    ],
+  },
+  {
+    title: "Advanced guides",
+    links: [
+      { title: "Writing plugins", href: "/docs/writing-plugins" },
+      { title: "Neuralink integration", href: "/docs/neuralink-integration" },
+      { title: "Temporal paradoxes", href: "/docs/temporal-paradoxes" },
+      { title: "Testing", href: "/docs/testing" },
+      { title: "Compile-time caching", href: "/docs/compile-time-caching" },
+      {
+        title: "Predictive data generation",
+        href: "/docs/predictive-data-generation",
+      },
+    ],
+  },
+  {
+    title: "API reference",
+    links: [
+      { title: "CacheAdvance.predict()", href: "/docs/cacheadvance-predict" },
+      { title: "CacheAdvance.flush()", href: "/docs/cacheadvance-flush" },
+      { title: "CacheAdvance.revert()", href: "/docs/cacheadvance-revert" },
+      { title: "CacheAdvance.regret()", href: "/docs/cacheadvance-regret" },
+    ],
+  },
+  {
+    title: "Contributing",
+    links: [
+      { title: "How to contribute", href: "/docs/how-to-contribute" },
+      { title: "Architecture guide", href: "/docs/architecture-guide" },
+      { title: "Design principles", href: "/docs/design-principles" },
+    ],
+  },
+];
+const router = typeof window === "object" ? window.location : {};
+const isHomePage =
+  typeof window === "object" ? window.location.pathname === "/" : true;
+let allLinks = navigation.flatMap((section) => section.links);
+let linkIndex = allLinks.findIndex((link) => link.href === router.pathname);
+let previousPage = allLinks[linkIndex - 1];
+let nextPage = allLinks[linkIndex + 1];
+let section = navigation.find((section) =>
+  section.links.find((link) => link.href === router.pathname)
+);
+// TODO
+let tableOfContents = Astro.props.markdoc?.content
+  ? collectHeadings(Astro.props.markdoc.content)
+  : [];
+
+let currentSection = tableOfContents[0]?.id; // useTableOfContents(tableOfContents);
+
+function isActive(section) {
+  if (section.id === currentSection) {
+    return true;
+  }
+  if (!section.children) {
+    return false;
+  }
+  return section.children.findIndex(isActive) > -1;
+}
+---
+
+<html class="antialiased [font-feature-settings:'ss01']" lang="en">
+  <head>
+    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
+
+    <script is:inline>
+      let isDarkMode = window.matchMedia("(prefers-color-scheme: dark)");
+
+      function updateTheme(theme) {
+        theme = theme ?? window.localStorage.theme ?? "system";
+
+        if (theme === "dark" || (theme === "system" && isDarkMode.matches)) {
+          document.documentElement.classList.add("dark");
+        } else if (
+          theme === "light" ||
+          (theme === "system" && !isDarkMode.matches)
+        ) {
+          document.documentElement.classList.remove("dark");
+        }
+
+        return theme;
+      }
+
+      function updateThemeWithoutTransitions(theme) {
+        updateTheme(theme);
+        document.documentElement.classList.add("[&_*]:!transition-none");
+        window.setTimeout(() => {
+          document.documentElement.classList.remove("[&_*]:!transition-none");
+        }, 0);
+      }
+
+      document.documentElement.setAttribute("data-theme", updateTheme());
+
+      new MutationObserver(([{ oldValue }]) => {
+        let newValue = document.documentElement.getAttribute("data-theme");
+        if (newValue !== oldValue) {
+          try {
+            window.localStorage.setItem("theme", newValue);
+          } catch {}
+          updateThemeWithoutTransitions(newValue);
+        }
+      }).observe(document.documentElement, {
+        attributeFilter: ["data-theme"],
+        attributeOldValue: true,
+      });
+
+      isDarkMode.addEventListener("change", () =>
+        updateThemeWithoutTransitions()
+      );
+    </script>
+  </head>
+
+  <body class="bg-white dark:bg-slate-900">
+    <Header navigation={navigation} />
+
+    {isHomePage && <Hero />}
+
+    <div
+      class="relative flex justify-center mx-auto max-w-8xl sm:px-2 lg:px-8 xl:px-12"
+    >
+      <div class="hidden lg:relative lg:block lg:flex-none">
+        <div
+          class="absolute inset-y-0 right-0 w-[50vw] bg-slate-50 dark:hidden"
+        >
+        </div>
+        <div
+          class="absolute bottom-0 right-0 hidden w-px h-12 top-16 bg-gradient-to-t from-slate-800 dark:block"
+        >
+        </div>
+        <div
+          class="absolute bottom-0 right-0 hidden w-px top-28 bg-slate-800 dark:block"
+        >
+        </div>
+        <div
+          class="sticky top-[4.5rem] -ml-0.5 h-[calc(100vh-4.5rem)] overflow-y-auto overflow-x-hidden py-16 pl-0.5"
+        >
+          <Navigation
+            navigation={navigation}
+            className="w-64 pr-8 xl:w-72 xl:pr-16"
+          />
+        </div>
+      </div>
+      <div
+        class="flex-auto max-w-2xl min-w-0 px-4 py-16 lg:max-w-none lg:pr-0 lg:pl-8 xl:px-16"
+      >
+        <article>
+          {
+            (title || section) && (
+              <header class="space-y-1 mb-9">
+                {section && (
+                  <p class="text-sm font-medium font-display text-sky-500">
+                    {section.title}
+                  </p>
+                )}
+                {title && (
+                  <h1 class="text-3xl tracking-tight font-display text-slate-900 dark:text-white">
+                    {title}
+                  </h1>
+                )}
+              </header>
+            )
+          }
+          <Prose>
+            <slot />
+          </Prose>
+        </article>
+        <dl
+          class="flex pt-6 mt-12 border-t border-slate-200 dark:border-slate-800"
+        >
+          {
+            previousPage && (
+              <div>
+                <dt class="text-sm font-medium font-display text-slate-900 dark:text-white">
+                  Previous
+                </dt>
+                <dd class="mt-1">
+                  <a
+                    href={previousPage.href}
+                    class="text-base font-semibold text-slate-500 hover:text-slate-600 dark:text-slate-400 dark:hover:text-slate-300"
+                  >
+                    <span aria-hidden="true">&larr;</span> {previousPage.title}
+                  </a>
+                </dd>
+              </div>
+            )
+          }
+          {
+            nextPage && (
+              <div class="ml-auto text-right">
+                <dt class="text-sm font-medium font-display text-slate-900 dark:text-white">
+                  Next
+                </dt>
+                <dd class="mt-1">
+                  <a
+                    href={nextPage.href}
+                    className="text-base font-semibold text-slate-500 hover:text-slate-600 dark:text-slate-400 dark:hover:text-slate-300"
+                  >
+                    {nextPage.title} <span aria-hidden="true">&rarr;</span>
+                  </a>
+                </dd>
+              </div>
+            )
+          }
+        </dl>
+      </div>
+      <div
+        class="hidden xl:sticky xl:top-[4.5rem] xl:-mr-6 xl:block xl:h-[calc(100vh-4.5rem)] xl:flex-none xl:overflow-y-auto xl:py-16 xl:pr-6"
+      >
+        <nav aria-labelledby="on-this-page-title" className="w-56">
+          {
+            tableOfContents.length > 0 && (
+              <>
+                <h2
+                  id="on-this-page-title"
+                  className="font-display text-sm font-medium text-slate-900 dark:text-white"
+                >
+                  On this page
+                </h2>
+                <ol role="list" className="mt-4 space-y-3 text-sm">
+                  {tableOfContents.map((section) => (
+                    <li key={section.id}>
+                      <h3>
+                        <a
+                          href={`#${section.id}`}
+                          class:list={[
+                            isActive(section)
+                              ? "text-sky-500"
+                              : "font-normal text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300",
+                          ]}
+                        >
+                          {section.title}
+                        </a>
+                      </h3>
+                      {section.children.length > 0 && (
+                        <ol
+                          role="list"
+                          class="pl-5 mt-2 space-y-3 text-slate-500 dark:text-slate-400"
+                        >
+                          {section.children.map((subSection) => (
+                            <li key={subSection.id}>
+                              <a
+                                href={`#${subSection.id}`}
+                                class={
+                                  isActive(subSection)
+                                    ? "text-sky-500"
+                                    : "hover:text-slate-600 dark:hover:text-slate-300"
+                                }
+                              >
+                                {subSection.title}
+                              </a>
+                            </li>
+                          ))}
+                        </ol>
+                      )}
+                    </li>
+                  ))}
+                </ol>
+              </>
+            )
+          }
+        </nav>
+      </div>
+    </div>
+  </body>
+</html>
