@@ -6,7 +6,11 @@ import { defineConfig } from "astro/config";
 
 export default defineConfig({
   integrations: [
-    mdx(),
+    mdx({
+      shikiConfig: {
+        theme: "css-variables",
+      },
+    }),
     react(),
     tailwind({
       applyBaseStyles: false,
