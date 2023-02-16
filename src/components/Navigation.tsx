@@ -1,9 +1,12 @@
 import clsx from "clsx";
+import { useState, useEffect } from "react";
 
 export function Navigation({ navigation, className }) {
-  // TODO
-  // let router = useRouter()
-  let router = typeof window === "object" ? window.location : {};
+  const [pathname, setPathname] = useState("/");
+
+  useEffect(() => {
+    setPathname(window.location.pathname);
+  }, []);
 
   return (
     <nav className={clsx("text-base lg:text-sm", className)}>
@@ -23,7 +26,7 @@ export function Navigation({ navigation, className }) {
                     href={link.href}
                     className={clsx(
                       "block w-full pl-3.5 before:pointer-events-none before:absolute before:-left-1 before:top-1/2 before:h-1.5 before:w-1.5 before:-translate-y-1/2 before:rounded-full",
-                      link.href === router.pathname
+                      link.href === pathname
                         ? "font-semibold text-sky-500 before:bg-sky-500"
                         : "text-slate-500 before:hidden before:bg-slate-300 hover:text-slate-600 hover:before:block dark:text-slate-400 dark:before:bg-slate-700 dark:hover:text-slate-300"
                     )}

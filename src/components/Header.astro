@@ -27,7 +27,7 @@ const isScrolled = false;
   </script>
 
   <div class="flex mr-6 lg:hidden">
-    <MobileNavigation navigation={navigation} />
+    <MobileNavigation navigation={navigation} client:visible />
   </div>
   <div class="relative flex items-center flex-grow basis-0">
     <a href="/" aria-label="Home page">
@@ -38,7 +38,7 @@ const isScrolled = false;
     </a>
   </div>
   <div class="mr-6 -my-5 sm:mr-8 md:mr-0">
-    <Search />
+    <Search client:idle />
   </div>
   <div class="relative flex justify-end gap-6 basis-0 sm:gap-8 md:flex-grow">
     <ThemeSelector className="relative z-10" />

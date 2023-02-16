@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
 import { Dialog } from "@headlessui/react";
+import { useState } from "react";
 
 import { Logomark } from "@/components/Logo";
 import { Navigation } from "@/components/Navigation";
@@ -35,26 +35,7 @@ function CloseIcon(props: any) {
 }
 
 export function MobileNavigation({ navigation }) {
-  // TODO
-  // let router = useRouter();
-  let router = typeof window === "object" ? window.location : {};
   let [isOpen, setIsOpen] = useState(false);
-
-  useEffect(() => {
-    if (!isOpen) return;
-
-    function onRouteChange() {
-      setIsOpen(false);
-    }
-
-    router.events.on("routeChangeComplete", onRouteChange);
-    router.events.on("routeChangeError", onRouteChange);
-
-    return () => {
-      router.events.off("routeChangeComplete", onRouteChange);
-      router.events.off("routeChangeError", onRouteChange);
-    };
-  }, [router, isOpen]);
 
   return (
     <>
