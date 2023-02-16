@@ -41,8 +41,14 @@ const isScrolled = false;
     <Search client:idle />
   </div>
   <div class="relative flex justify-end gap-6 basis-0 sm:gap-8 md:flex-grow">
-    <ThemeSelector className="relative z-10" />
-    <a href="https://github.com" class="group" aria-label="GitHub">
+    <ThemeSelector className="relative z-10" client:visible />
+    <a
+      href={`https://github.com/${import.meta.env.PUBLIC_GITHUB_USER}/${
+        import.meta.env.PUBLIC_GITHUB_REPO
+      }`}
+      class="group"
+      aria-label="GitHub"
+    >
       <GitHubIcon
         className="w-6 h-6 fill-slate-400 group-hover:fill-slate-500 dark:group-hover:fill-slate-300"
       />
