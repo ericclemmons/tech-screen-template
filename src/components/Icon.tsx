@@ -23,7 +23,7 @@ const iconStyles = {
     "[--icon-foreground:theme(colors.amber.900)] [--icon-background:theme(colors.amber.100)]",
 };
 
-export function Icon({ color = "blue", icon, className, ...props }) {
+export function Icon({ color = "blue", icon, className = "", ...props }) {
   let id = useId();
   let IconComponent = icons[icon];
 
@@ -68,10 +68,10 @@ export function Gradient({ color = "blue", ...props }) {
   );
 }
 
-export function LightMode({ className, ...props }) {
+export function LightMode({ className = "", ...props }) {
   return <g className={clsx("dark:hidden", className)} {...props} />;
 }
 
-export function DarkMode({ className, ...props }) {
+export function DarkMode({ className = "", ...props }) {
   return <g className={clsx("hidden dark:inline", className)} {...props} />;
 }
