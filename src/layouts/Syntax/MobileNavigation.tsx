@@ -1,8 +1,8 @@
 import { Dialog } from "@headlessui/react";
 import { useState } from "react";
 
-import { Logomark } from "@/components/Logo";
-import { Navigation } from "@/components/Navigation";
+import { Logomark } from "./Logo";
+import { Navigation } from "./Navigation";
 
 function MenuIcon(props: any) {
   return (
