@@ -6,22 +6,37 @@ import { Search } from "@/components/Search";
 import { ThemeSelector } from "@/components/ThemeSelector";
 
 const { navigation } = Astro.props;
-const isScrolled = false;
 ---
 
-<header
-  class:list={[
-    "sticky top-0 z-50 flex flex-wrap items-center justify-between bg-white px-4 py-5 shadow-md shadow-slate-900/5 transition duration-500 dark:shadow-none sm:px-6 lg:px-8",
-    isScrolled
-      ? "dark:bg-slate-900/95 dark:backdrop-blur dark:[@supports(backdrop-filter:blur(0))]:bg-slate-900/75"
-      : "dark:bg-transparent",
-  ]}
->
-  <script is:inline>
-    function onScroll() {
-      console.log(document.currentScript, document.currentScript.parentElement);
-      // setIsScrolled(window.scrollY > 0);
+<header>
+  <style>
+    header {
+      @apply sticky top-0 z-50 flex flex-wrap items-center justify-between px-4 py-5 transition duration-500 bg-white shadow-md shadow-slate-900/5  sm:px-6 lg:px-8;
     }
+
+    :global([data-theme="dark"]) header {
+      @apply shadow-none;
+    }
+
+    :global([data-theme="dark"]) header:not([data-scrolled]) {
+      @apply bg-transparent;
+    }
+    :global([data-theme="dark"]) header[data-scrolled] {
+      @apply bg-slate-900/95 backdrop-blur [@supports(backdrop-filter:blur(0))]:bg-slate-900/75;
+    }
+  </style>
+
+  <script is:inline>
+    const header = document.currentScript.parentElement;
+
+    function onScroll() {
+      if (window.scrollY > 0) {
+        header.dataset.scrolled = true;
+      } else {
+        delete header.dataset.scrolled;
+      }
+    }
+
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
   </script>
@@ -30,10 +45,10 @@ const isScrolled = false;
     <MobileNavigation navigation={navigation} client:visible />
   </div>
   <div class="relative flex items-center flex-grow basis-0">
-    <a href="/" aria-label="Home page">
-      <Logomark className="h-9 w-9 lg:hidden" />
+    <a href="/" aria-label="Home page" class="flex items-center gap-8">
+      <Logomark className="h-9 w-9 overflow-hidden rounded-full" />
       <Logo
-        className="hidden w-auto h-9 fill-slate-700 dark:fill-sky-100 lg:block"
+        className="hidden w-auto h-9 fill-slate-700 dark:fill-sky-100 lg:flex items-center font-display text-slate-900 tracking-wide"
       />
     </a>
   </div>
