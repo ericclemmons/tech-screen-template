@@ -1,0 +1,19 @@
+@layer components {
+  :root {
+    --astro-code-color-text: theme('colors.sky.300');
+    --astro-code-color-background: transparent;
+    --astro-code-token-constant: theme('colors.slate.50');
+    --astro-code-token-string: theme('colors.slate.50');
+    --astro-code-token-comment: theme('colors.slate.400');
+    --astro-code-token-keyword: theme('colors.pink.400');
+    --astro-code-token-parameter: theme('colors.sky.300');
+    --astro-code-token-function: theme('colors.pink.400');
+    --astro-code-token-string-expression: theme('colors.sky.300');
+    --astro-code-token-punctuation: theme('colors.slate.500');
+    --astro-code-token-link: theme('colors.sky.300');
+  }
+}
+
+pre.astro-code {
+  @apply px-4;
+}

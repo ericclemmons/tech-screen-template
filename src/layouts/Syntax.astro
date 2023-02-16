@@ -1,6 +1,6 @@
 ---
-import { Header } from "@/components/Header";
-import { Hero } from "@/components/Hero";
+import Header from "@/components/Header.astro";
+import Hero from "@/components/Hero.astro";
 import { Navigation } from "@/components/Navigation";
 import { Prose } from "@/components/Prose";
 
@@ -177,7 +177,7 @@ function isActive(section) {
   </head>
 
   <body class="bg-white dark:bg-slate-900">
-    <Header navigation={navigation} client:visible />
+    <Header navigation={navigation} />
 
     {isHomePage && <Hero />}
 
