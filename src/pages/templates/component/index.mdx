@@ -1,0 +1,31 @@
+---
+layout: "@/layouts/Syntax.astro"
+title: UI Challenge
+---
+
+import { Code } from "astro/components";
+import { Sandbox } from "@/components/Sandbox";
+
+import Component from "./Component";
+import source from "./Component?raw";
+import test from "./Component.test?raw";
+
+> Problem statement goes here...
+
+## Requirements
+
+1. [ ] 1st
+1. [ ] 2nd
+
+## Non-Goals
+
+1. [ ] 1st
+1. [ ] 2nd
+
+## Solution
+
+<Code lang="typescript" code={source} />
+
+## Demo
+
+<Component />

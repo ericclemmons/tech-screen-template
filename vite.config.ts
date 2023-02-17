@@ -2,6 +2,8 @@ import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   test: {
-    includeSource: ["src/**/*.{js,ts,jsx,tsx}"],
+    environment: "jsdom",
+    includeSource: ["src/**/*.{js,ts,jsx,tsx}"], // Include source files for `import.meta.vitest`,
+    setupFiles: "./tests/setup.ts",
   },
 });
