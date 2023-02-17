@@ -6,6 +6,7 @@
     "jsxImportSource": "react",
     "paths": {
       "@/*": ["src/*"]
-    }
+    },
+    "types": ["@astrojs/image/client", "vitest/importMeta"]
   }
 }
