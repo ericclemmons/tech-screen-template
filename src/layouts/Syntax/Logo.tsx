@@ -9,5 +9,5 @@ export function Logomark(props) {
 }
 
 export function Logo(props) {
-  return <h1 {...props}>Tech Screen</h1>;
+  return <h1 {...props}>Tech Screen Template</h1>;
 }
