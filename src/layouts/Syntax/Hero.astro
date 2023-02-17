@@ -10,17 +10,20 @@ import blurCyanImage from "./images/blur-cyan.png";
 import blurIndigoImage from "./images/blur-indigo.png";
 
 const codeLanguage = "javascript";
-const code = `export default {
-  strategy: 'predictive',
-  engine: {
-    cpus: 12,
-    backups: ['./storage/cache.wtf'],
-  },
-}`;
+const code = `
+function MyComponent() {
+  return (
+    ...
+  )
+}
+
+export default function App() {
+  return <MyComponent />
+}`.trim();
 
 const tabs = [
-  { name: "cache-advance.config.js", isActive: true },
-  { name: "package.json", isActive: false },
+  { name: "component.template.mdx", isActive: true },
+  { name: "algorithm.template.mdx", isActive: false },
 ];
 ---
 
@@ -43,15 +46,14 @@ const tabs = [
           <p
             class="inline text-5xl tracking-tight text-transparent bg-gradient-to-r from-indigo-200 via-sky-400 to-indigo-200 bg-clip-text font-display"
           >
-            Never miss the cache again.
+            Start a Coding Challenge
           </p>
           <p class="mt-3 text-2xl tracking-tight text-slate-400">
-            Cache every single thing your app could ever do ahead of time, so
-            your code never even has to run at all.
+            Choose the template that best fits your needs
           </p>
           <div class="flex gap-4 mt-8 md:justify-center lg:justify-start">
-            <Button href="/">Get started</Button>
-            <Button href="/" variant="secondary">View on GitHub</Button>
+            <Button href="/">UI Component</Button>
+            <Button href="/" variant="secondary">Algorithm</Button>
           </div>
         </div>
       </div>
