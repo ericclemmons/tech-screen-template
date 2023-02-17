@@ -7,8 +7,7 @@ import Prose from "@/layouts/Syntax/Prose.astro";
 import "@/styles/tailwind.css";
 
 const { frontmatter, headings } = Astro.props;
-const { title = "Tech Screen", description = "Tech Screen Starter" } =
-  frontmatter;
+const { title, description = "Tech Screen Starter" } = frontmatter;
 
 function collectHeadings(nodes) {
   let sections = [];
@@ -42,9 +41,13 @@ function collectHeadings(nodes) {
 const navigation = [
   {
     title: "Introduction",
+    links: [{ title: "Getting started", href: "/" }],
+  },
+  {
+    title: "Templates",
     links: [
-      { title: "Getting started", href: "/" },
-      { title: "Installation", href: "/docs/installation" },
+      { title: "Algorithm", href: "/templates/algorithm" },
+      { title: "Component", href: "/templates/component" },
     ],
   },
   {
@@ -55,53 +58,6 @@ const navigation = [
       { title: "MDN", href: "https://developer.mozilla.org/en-US/" },
       { title: "React", href: "https://beta.reactjs.org/reference/react" },
       { title: "Tailwind", href: "https://tailwindcss.com/docs/installation" },
-    ],
-  },
-  {
-    title: "Core concepts",
-    links: [
-      { title: "Understanding caching", href: "/docs/understanding-caching" },
-      {
-        title: "Predicting user behavior",
-        href: "/docs/predicting-user-behavior",
-      },
-      { title: "Basics of time-travel", href: "/docs/basics-of-time-travel" },
-      {
-        title: "Introduction to string theory",
-        href: "/docs/introduction-to-string-theory",
-      },
-      { title: "The butterfly effect", href: "/docs/the-butterfly-effect" },
-    ],
-  },
-  {
-    title: "Advanced guides",
-    links: [
-      { title: "Writing plugins", href: "/docs/writing-plugins" },
-      { title: "Neuralink integration", href: "/docs/neuralink-integration" },
-      { title: "Temporal paradoxes", href: "/docs/temporal-paradoxes" },
-      { title: "Testing", href: "/docs/testing" },
-      { title: "Compile-time caching", href: "/docs/compile-time-caching" },
-      {
-        title: "Predictive data generation",
-        href: "/docs/predictive-data-generation",
-      },
-    ],
-  },
-  {
-    title: "API reference",
-    links: [
-      { title: "CacheAdvance.predict()", href: "/docs/cacheadvance-predict" },
-      { title: "CacheAdvance.flush()", href: "/docs/cacheadvance-flush" },
-      { title: "CacheAdvance.revert()", href: "/docs/cacheadvance-revert" },
-      { title: "CacheAdvance.regret()", href: "/docs/cacheadvance-regret" },
-    ],
-  },
-  {
-    title: "Contributing",
-    links: [
-      { title: "How to contribute", href: "/docs/how-to-contribute" },
-      { title: "Architecture guide", href: "/docs/architecture-guide" },
-      { title: "Design principles", href: "/docs/design-principles" },
     ],
   },
 ];
@@ -205,13 +161,15 @@ function isActive(section) {
           class="sticky top-[4.5rem] -ml-0.5 h-[calc(100vh-4.5rem)] overflow-y-auto overflow-x-hidden py-16 pl-0.5"
         >
           <Navigation
-            navigation={navigation}
             className="w-64 pr-8 xl:w-72 xl:pr-16"
+            client:load
+            navigation={navigation}
           />
         </div>
       </div>
       <div
         class="flex-auto max-w-2xl min-w-0 px-4 py-16 lg:max-w-none lg:pr-0 lg:pl-8 xl:px-16"
+        id="top"
       >
         <article>
           {

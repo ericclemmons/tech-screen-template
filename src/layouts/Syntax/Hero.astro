@@ -46,14 +46,13 @@ const tabs = [
           <p
             class="inline text-5xl tracking-tight text-transparent bg-gradient-to-r from-indigo-200 via-sky-400 to-indigo-200 bg-clip-text font-display"
           >
-            Start a Coding Challenge
+            Kick-Start Your Coding Challenge
           </p>
           <p class="mt-3 text-2xl tracking-tight text-slate-400">
-            Choose the template that best fits your needs
+            Ready-to-go templates for frontend technical screens
           </p>
           <div class="flex gap-4 mt-8 md:justify-center lg:justify-start">
-            <Button href="/">UI Component</Button>
-            <Button href="/" variant="secondary">Algorithm</Button>
+            <Button href="/#top">Get Started</Button>
           </div>
         </div>
       </div>
@@ -105,7 +104,6 @@ const tabs = [
                 {
                   tabs.map((tab) => (
                     <div
-                      key={tab.name}
                       class:list={[
                         "flex h-6 rounded-full",
                         tab.isActive

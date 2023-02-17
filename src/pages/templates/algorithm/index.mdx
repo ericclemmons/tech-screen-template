@@ -1,0 +1,57 @@
+---
+layout: "@/layouts/Syntax.astro"
+title: Algorithm Challenge
+---
+
+import { Code } from "astro/components";
+import { Sandbox } from "@/components/Sandbox";
+
+import f from "./function";
+import source from "./function?raw";
+import test from "./function.test?raw";
+
+> Problem statement goes here...
+
+## Requirements
+
+1. [ ] 1st
+1. [ ] 2nd
+
+## Non-Goals
+
+1. [ ] 1st
+1. [ ] 2nd
+
+## Solution
+
+<Code lang="typescript" code={source} />
+
+## Tests
+
+<Code lang="typescript" code={test} />
+
+### Results
+
+<Sandbox
+  client:visible
+  files={{
+    "function.ts": { file: { contents: source } },
+    "function.test.ts": { file: { contents: test } },
+    "package.json": {
+      file: {
+        contents: JSON.stringify({
+          name: "algorithm-challenge",
+          version: "0.1.0",
+          private: true,
+          main: "/function.ts",
+          scripts: {
+            start: "vitest",
+          },
+          devDependencies: {
+            vitest: "latest",
+          },
+        }),
+      },
+    },
+  }}
+/>

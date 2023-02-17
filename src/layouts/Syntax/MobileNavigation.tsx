@@ -66,7 +66,7 @@ export function MobileNavigation({ navigation }) {
               <Logomark className="overflow-hidden rounded-full h-9 w-9" />
             </a>
           </div>
-          <Navigation navigation={navigation} className="px-1 mt-5" />
+          <Navigation className="px-1 mt-5" navigation={navigation} />
         </Dialog.Panel>
       </Dialog>
     </>

@@ -19,4 +19,12 @@ export default defineConfig({
       serviceEntryPoint: "@astrojs/image/sharp",
     }),
   ],
+  server: {
+    headers: {
+      // 👇 `credentialless` is the trick to get both WebContainers & CORS images to both load
+      // See: https://developer.chrome.com/blog/coep-credentialless-origin-trial/#credentialless-to-the-rescue
+      "Cross-Origin-Embedder-Policy": "credentialless",
+      "Cross-Origin-Opener-Policy": "same-origin",
+    },
+  },
 });
