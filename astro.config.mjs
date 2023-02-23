@@ -19,6 +19,7 @@ export default defineConfig({
       serviceEntryPoint: "@astrojs/image/sharp",
     }),
   ],
+  output: "server",
   server: {
     headers: {
       // 👇 `credentialless` is the trick to get both WebContainers & CORS images to both load

@@ -1,4 +1,5 @@
 ---
+import Clone from "@/layouts/Syntax/Clone";
 import Header from "@/layouts/Syntax/Header.astro";
 import Hero from "@/layouts/Syntax/Hero.astro";
 import { Navigation } from "@/layouts/Syntax/Navigation";
@@ -6,8 +7,9 @@ import Prose from "@/layouts/Syntax/Prose.astro";
 
 import "@/styles/tailwind.css";
 
-const { frontmatter, headings } = Astro.props;
+const { file, frontmatter, headings } = Astro.props;
 const { title, description = "Tech Screen Starter" } = frontmatter;
+const template = path.dirname(path.relative("src/pages", file));
 
 function collectHeadings(nodes) {
   let sections = [];
@@ -181,11 +183,20 @@ function isActive(section) {
                     {section.title}
                   </p>
                 )}
-                {title && (
-                  <h1 class="text-3xl tracking-tight font-display text-slate-900 dark:text-white">
-                    {title}
-                  </h1>
-                )}
+                <div class="flex justify-between items-center">
+                  {title && (
+                    <h1 class="text-3xl tracking-tight font-display text-slate-900 dark:text-white">
+                      {title}
+                    </h1>
+                  )}
+
+                  <Clone
+                    client:only
+                    defaultCategory={section?.title}
+                    defaultTitle={`${title} Clone`}
+                    template={template}
+                  />
+                </div>
               </header>
             )
           }
