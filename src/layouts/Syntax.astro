@@ -4,6 +4,8 @@ import Header from "@/layouts/Syntax/Header.astro";
 import Hero from "@/layouts/Syntax/Hero.astro";
 import { Navigation } from "@/layouts/Syntax/Navigation";
 import Prose from "@/layouts/Syntax/Prose.astro";
+import { get, groupBy, omit, pick } from "lodash";
+import path from "node:path";
 
 import "@/styles/tailwind.css";
 
@@ -40,18 +42,33 @@ function collectHeadings(nodes) {
 
   return sections;
 }
+
+const pages = await Astro.glob("/src/pages/**/*.mdx");
+const categories = groupBy(pages, "frontmatter.category");
+
+const pageToNav = ({
+  frontmatter: { title },
+  url: href,
+}: (typeof pages)[number]) => {
+  console.log({ href });
+  return {
+    title,
+    href: href || "/",
+  };
+};
+
 const navigation = [
-  {
-    title: "Introduction",
-    links: [{ title: "Getting started", href: "/" }],
-  },
-  {
-    title: "Templates",
-    links: [
-      { title: "Algorithm", href: "/templates/algorithm" },
-      { title: "Component", href: "/templates/component" },
-    ],
-  },
+  // Prioritized nav
+  ...Object.entries(pick(categories, "undefined")).map(([, pages]) => ({
+    title: "Home",
+    links: pages.map(pageToNav),
+  })),
+  ...Object.entries(omit(categories, "undefined"))
+    .sort(([title1, title2]) => title1.localeCompare(title2))
+    .map(([title, pages]) => ({
+      title,
+      links: pages.map(pageToNav),
+    })),
   {
     title: "Documentation",
     links: [
@@ -64,6 +81,7 @@ const navigation = [
     ],
   },
 ];
+
 const router = Astro.url;
 const isHomePage = router.pathname === "/";
 let allLinks = navigation.flatMap((section) => section.links);
@@ -171,7 +189,7 @@ function isActive(section) {
         </div>
       </div>
       <div
-        class="flex-auto max-w-2xl min-w-0 px-4 py-16 lg:max-w-none lg:pr-0 lg:pl-8 xl:px-16"
+        class="flex-auto max-w-2xl min-w-0 px-4 py-16 lg:max-w-none lg:pl-8 xl:px-16"
         id="top"
       >
         <article>
@@ -244,9 +262,9 @@ function isActive(section) {
         </dl>
       </div>
       <div
-        class="hidden xl:sticky xl:top-[4.5rem] xl:-mr-6 xl:block xl:h-[calc(100vh-4.5rem)] xl:flex-none xl:overflow-y-auto xl:py-16 xl:pr-6"
+        class="hidden md:sticky md:top-[4.5rem] md:-mr-6 md:block md:h-[calc(100vh-4.5rem)] md:flex-none md:overflow-y-auto md:py-16 md:pr-6"
       >
-        <nav aria-labelledby="on-this-page-title" class="w-56">
+        <nav aria-labelledby="on-this-page-title" class="w-48">
           {
             tableOfContents.length > 0 && (
               <>
