@@ -6,4 +6,9 @@ export default defineConfig({
     includeSource: ["src/**/*.{js,ts,jsx,tsx}"], // Include source files for `import.meta.vitest`,
     setupFiles: "./tests/setup.ts",
   },
+  resolve: {
+    alias: {
+      "@": "src",
+    },
+  },
 });
