@@ -4,3 +4,7 @@
 @import './shiki.css';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
+
+.prose > ul > li > input {
+  margin-bottom: 0;
+}
