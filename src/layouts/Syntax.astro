@@ -45,17 +45,10 @@ function collectHeadings(nodes) {
 
 const pages = await Astro.glob("/src/pages/**/*.mdx");
 const categories = groupBy(pages, "frontmatter.category");
-
 const pageToNav = ({
   frontmatter: { title },
   url: href,
-}: (typeof pages)[number]) => {
-  console.log({ href });
-  return {
-    title,
-    href: href || "/",
-  };
-};
+}: (typeof pages)[number]) => ({ title, href: href || "/" });
 
 const navigation = [
   // Prioritized nav
