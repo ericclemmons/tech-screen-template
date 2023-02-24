@@ -16,4 +16,5 @@
 
 pre.astro-code {
   @apply px-4;
+  max-height: 75vh;
 }
