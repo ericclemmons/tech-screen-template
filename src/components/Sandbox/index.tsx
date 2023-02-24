@@ -1,14 +1,15 @@
-import * as React from "react";
-import { WebContainer } from "@webcontainer/api";
 import type { FileSystemTree } from "@webcontainer/api";
-import ansiHTML from "ansi-html";
+import { WebContainer } from "@webcontainer/api";
+import toHTML from "ansi-html";
+import * as React from "react";
+
+import ansi from "./ansi";
 
 function useWebContainer(tree: FileSystemTree) {
   const [state, setState] = React.useState<
     "IDLE" | "BOOTING" | "INSTALLING" | "RUNNING" | "READY"
   >("IDLE");
-  // TODO wrap `setOutput` to replace previous line when it sees `[1A`
-  const [output, setOutput] = React.useState("");
+  const [output, setOutput] = React.useState<string>("");
   const [url, setUrl] = React.useState<string>();
 
   React.useEffect(() => {
@@ -23,7 +24,7 @@ function useWebContainer(tree: FileSystemTree) {
       install.output.pipeTo(
         new WritableStream({
           write(data) {
-            setOutput((previous) => previous.concat(data));
+            setOutput((previousOutput) => previousOutput.concat(data));
           },
         })
       );
@@ -31,13 +32,12 @@ function useWebContainer(tree: FileSystemTree) {
       await install.exit;
 
       setState("RUNNING");
-      setOutput("");
 
       const start = await instance.spawn("pnpm", ["start"]);
       start.output.pipeTo(
         new WritableStream({
           write(data) {
-            setOutput((previous) => previous.concat(data));
+            setOutput((previousOutput) => previousOutput.concat(data));
           },
         })
       );
@@ -49,7 +49,7 @@ function useWebContainer(tree: FileSystemTree) {
     })();
   }, []);
 
-  return [output, url];
+  return [ansi(output), url];
 }
 
 export function Sandbox({ files }: { files: FileSystemTree }) {
@@ -57,11 +57,7 @@ export function Sandbox({ files }: { files: FileSystemTree }) {
 
   return (
     <pre className="h-64 overflow-auto flex flex-col-reverse">
-      <code
-        dangerouslySetInnerHTML={{
-          __html: ansiHTML(output), //ansi.toHtml(output),
-        }}
-      ></code>
+      <code dangerouslySetInnerHTML={{ __html: toHTML(output) }} />
     </pre>
   );
 }
