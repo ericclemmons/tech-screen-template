@@ -257,7 +257,7 @@ function isActive(section) {
       <div
         class="hidden md:sticky md:top-[4.5rem] md:-mr-6 md:block md:h-[calc(100vh-4.5rem)] md:flex-none md:overflow-y-auto md:py-16 md:pr-6"
       >
-        <nav aria-labelledby="on-this-page-title" class="w-48">
+        <nav aria-labelledby="on-this-page-title" class="w-48 space-y-4 mt-9">
           {
             tableOfContents.length > 0 && (
               <>
@@ -309,6 +309,12 @@ function isActive(section) {
               </>
             )
           }
+
+          <h2
+            class="text-sm font-medium font-display text-slate-900 dark:text-white"
+          >
+            <a href={`vscode://file/${file}`}>✏️ Edit this page</a>
+          </h2>
         </nav>
       </div>
     </div>
