@@ -1,16 +1,18 @@
-import { useCallback, useEffect, useState } from "react";
-import { createPortal } from "react-dom";
-import { DocSearchModal, useDocSearchKeyboardEvents } from "@docsearch/react";
+import * as React from "react";
+import type { IconName } from "react-cmdk";
+import CommandPalette, {
+  filterItems,
+  getItemIndex,
+  useHandleOpenCommandPalette,
+} from "react-cmdk";
 
-const docSearchConfig = {
-  appId: import.meta.env.PUBLIC_DOCSEARCH_APP_ID,
-  apiKey: import.meta.env.PUBLIC_DOCSEARCH_API_KEY,
-  indexName: import.meta.env.PUBLIC_DOCSEARCH_INDEX_NAME,
+import "@/styles/search.css";
+
+const iconByTitle: Record<string, IconName> = {
+  Home: "HomeIcon",
+  Documentation: "ArrowTopRightOnSquareIcon",
+  Templates: "DocumentDuplicateIcon",
 };
-
-function Hit({ hit, children }) {
-  return <a href={hit.url}>{children}</a>;
-}
 
 function SearchIcon(props) {
   return (
@@ -20,59 +22,72 @@ function SearchIcon(props) {
   );
 }
 
-export function Search() {
-  let [isOpen, setIsOpen] = useState(false);
-  let [modifierKey, setModifierKey] = useState();
+export function Search({ navigation }) {
+  const [page, setPage] = React.useState<"root">("root");
+  const [open, setOpen] = React.useState<boolean>(false);
+  const [search, setSearch] = React.useState("");
 
-  const onOpen = useCallback(() => {
-    setIsOpen(true);
-  }, [setIsOpen]);
+  useHandleOpenCommandPalette(setOpen);
 
-  const onClose = useCallback(() => {
-    setIsOpen(false);
-  }, [setIsOpen]);
-
-  useDocSearchKeyboardEvents({ isOpen, onOpen, onClose });
-
-  useEffect(() => {
-    setModifierKey(
-      /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform) ? "⌘" : "Ctrl "
-    );
-  }, []);
+  const filteredItems = filterItems(
+    navigation.map(({ title, links }) => ({
+      id: title,
+      heading: title,
+      items: links.map((link) => ({
+        id: link.title,
+        children: link.title,
+        href: link.href,
+        icon: iconByTitle[title] ?? "CodeBracketSquareIcon",
+      })),
+    })),
+    search
+  );
 
   return (
     <>
       <button
         type="button"
         className="group flex h-6 w-6 items-center justify-center sm:justify-start md:h-auto md:w-80 md:flex-none md:rounded-lg md:py-2.5 md:pl-4 md:pr-3.5 md:text-sm md:ring-1 md:ring-slate-200 md:hover:ring-slate-300 dark:md:bg-slate-800/75 dark:md:ring-inset dark:md:ring-white/5 dark:md:hover:bg-slate-700/40 dark:md:hover:ring-slate-500 lg:w-96"
-        onClick={onOpen}
+        onClick={() => setOpen(true)}
       >
         <SearchIcon className="flex-none w-5 h-5 fill-slate-400 group-hover:fill-slate-500 dark:fill-slate-500 md:group-hover:fill-slate-400" />
         <span className="sr-only md:not-sr-only md:ml-2 md:text-slate-500 md:dark:text-slate-400">
-          Search docs
+          Search
         </span>
-        {modifierKey && (
-          <kbd className="hidden ml-auto font-medium text-slate-400 dark:text-slate-500 md:block">
-            <kbd className="font-sans">{modifierKey}</kbd>
-            <kbd className="font-sans">K</kbd>
-          </kbd>
-        )}
+        <kbd className="hidden ml-auto font-medium text-slate-400 dark:text-slate-500 md:block">
+          <kbd className="font-sans">⌘</kbd>
+          <kbd className="font-sans">K</kbd>
+        </kbd>
       </button>
-      {isOpen &&
-        createPortal(
-          <DocSearchModal
-            {...docSearchConfig}
-            initialScrollY={window.scrollY}
-            onClose={onClose}
-            hitComponent={Hit}
-            navigator={{
-              navigate({ itemUrl }) {
-                Router.push(itemUrl);
-              },
-            }}
-          />,
-          document.body
-        )}
+
+      <CommandPalette
+        onChangeSearch={setSearch}
+        onChangeOpen={setOpen}
+        search={search}
+        isOpen={open}
+        page={page}
+      >
+        <CommandPalette.Page id="root">
+          {filteredItems.length ? (
+            filteredItems.map((list) => (
+              <CommandPalette.List key={list.id} heading={list.heading}>
+                {list.items.map(({ id, ...rest }) => (
+                  <CommandPalette.ListItem
+                    key={id}
+                    index={getItemIndex(filteredItems, id)}
+                    {...rest}
+                  />
+                ))}
+              </CommandPalette.List>
+            ))
+          ) : (
+            <CommandPalette.FreeSearchAction />
+          )}
+        </CommandPalette.Page>
+        <CommandPalette.Page id="projects">
+          {/* Projects page */}
+        </CommandPalette.Page>
+      </CommandPalette>
     </>
   );
 }

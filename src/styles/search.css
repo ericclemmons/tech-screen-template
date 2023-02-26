@@ -1,0 +1,5 @@
+@import "react-cmdk/dist/cmdk.css";
+
+#headlessui-portal-root {
+  @apply fixed z-50;
+}

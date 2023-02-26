@@ -53,7 +53,7 @@ const { navigation } = Astro.props;
     </a>
   </div>
   <div class="mr-6 -my-5 sm:mr-8 md:mr-0">
-    <Search client:idle />
+    <Search client:idle navigation={navigation} />
   </div>
   <div class="relative flex justify-end gap-6 basis-0 sm:gap-8 md:flex-grow">
     <ThemeSelector className="relative z-10" client:visible />
