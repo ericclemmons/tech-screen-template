@@ -9,14 +9,18 @@ function useWebContainer(tree: FileSystemTree) {
   const [state, setState] = React.useState<
     "IDLE" | "BOOTING" | "INSTALLING" | "RUNNING" | "READY"
   >("IDLE");
+  const boot = React.useMemo<Promise<WebContainer>>(
+    () => WebContainer.boot(),
+    []
+  );
+
   const [output, setOutput] = React.useState<string>("");
   const [url, setUrl] = React.useState<string>();
 
   React.useEffect(() => {
     (async () => {
       setState("BOOTING");
-
-      const instance = await WebContainer.boot();
+      const instance = await boot;
       await instance.mount(tree);
 
       setState("INSTALLING");
