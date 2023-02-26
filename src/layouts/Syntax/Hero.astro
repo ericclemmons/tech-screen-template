@@ -7,7 +7,7 @@ import { TrafficLightsIcon } from "@/components/icons/TrafficLightsIcon";
 import test from "@/pages/templates/algorithm/function.test?raw";
 import source from "@/pages/templates/algorithm/function?raw";
 import { Button } from "./Button";
-import { HeroBackground } from "./HeroBackground";
+import Background from "./Hero/Background.astro";
 import blurCyanImage from "./images/blur-cyan.png";
 import blurIndigoImage from "./images/blur-indigo.png";
 
@@ -50,7 +50,7 @@ const tabs = [
         <div
           class="absolute inset-x-[-50vw] -top-32 -bottom-48 [mask-image:linear-gradient(transparent,white,white)] dark:[mask-image:linear-gradient(transparent,white,transparent)] lg:left-[calc(50%+14rem)] lg:right-0 lg:-top-32 lg:-bottom-32 lg:[mask-image:none] lg:dark:[mask-image:linear-gradient(white,white,transparent)]"
         >
-          <HeroBackground
+          <Background
             className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 lg:left-0 lg:translate-x-0 lg:translate-y-[-60%]"
           />
         </div>
