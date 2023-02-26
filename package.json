@@ -19,26 +19,26 @@
     "test": "vitest --watch"
   },
   "dependencies": {
-    "@astrojs/image": "^0.15.0",
-    "@astrojs/mdx": "^0.16.2",
+    "@astrojs/image": "^0.15.1",
+    "@astrojs/mdx": "^0.17.2",
     "@astrojs/prism": "^2.0.0",
     "@astrojs/react": "^2.0.2",
     "@astrojs/tailwind": "^3.0.1",
     "@docsearch/react": "^3.3.3",
-    "@headlessui/react": "^1.7.11",
+    "@headlessui/react": "^1.7.12",
     "@tailwindcss/typography": "^0.5.9",
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
     "@webcontainer/api": "^1.0.1",
     "ansi-html": "^0.0.9",
-    "astro": "^2.0.12",
+    "astro": "^2.0.15",
     "clsx": "^1.2.1",
-    "daisyui": "^2.50.1",
+    "daisyui": "^2.51.1",
     "lodash": "^4.17.21",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "sharp": "^0.31.3",
-    "tailwindcss": "^3.0.24"
+    "tailwindcss": "^3.2.7"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.5",
@@ -47,6 +47,6 @@
     "jsdom": "^21.1.0",
     "prettier": "^2.8.4",
     "prettier-plugin-astro": "^0.8.0",
-    "vitest": "^0.28.5"
+    "vitest": "^0.29.1"
   }
 }
