@@ -8,22 +8,12 @@ import { Button } from "./Button";
 import { HeroBackground } from "./HeroBackground";
 import blurCyanImage from "./images/blur-cyan.png";
 import blurIndigoImage from "./images/blur-indigo.png";
-
-const codeLanguage = "javascript";
-const code = `
-function MyComponent() {
-  return (
-    ...
-  )
-}
-
-export default function App() {
-  return <MyComponent />
-}`.trim();
+import source from "@/pages/templates/algorithm/function?raw";
+import test from "@/pages/templates/algorithm/function.test?raw";
 
 const tabs = [
-  { name: "component.template.mdx", isActive: true },
-  { name: "algorithm.template.mdx", isActive: false },
+  { name: ".../algorithm/function.ts", isActive: false, code: source },
+  { name: ".../algorithm/function.test.ts", isActive: true, code: test },
 ];
 ---
 
@@ -105,16 +95,29 @@ const tabs = [
                   tabs.map((tab) => (
                     <div
                       class:list={[
-                        "flex h-6 rounded-full",
-                        tab.isActive
-                          ? "bg-gradient-to-r from-sky-400/30 via-sky-400 to-sky-400/30 p-px font-medium text-sky-300"
-                          : "text-slate-500",
+                        "group",
+                        "flex h-6",
+                        "rounded-full",
+                        "cursor-pointer",
+                        "font-medium",
+                        "p-px",
+                        "data-[tab=active]:text-sky-500",
+                        "data-[tab=active] bg-gradient-to-r",
+                        "data-[tab=active]:from-sky-400/30",
+                        "data-[tab=active]:via-sky-400",
+                        "data-[tab=active]:to-sky-400/30",
+                        "data-[tab=active]:text-sky-300",
+                        "data-[tab=inactive]:text-slate-500",
                       ]}
+                      data-tab={tab.isActive ? "active" : "inactive"}
                     >
                       <div
                         class:list={[
-                          "flex items-center rounded-full px-2.5",
-                          tab.isActive && "bg-slate-800",
+                          "flex",
+                          "items-center",
+                          "rounded-full",
+                          "px-2.5",
+                          "group-data-[tab=active]:bg-slate-800",
                         ]}
                       >
                         {tab.name}
@@ -123,29 +126,54 @@ const tabs = [
                   ))
                 }
               </div>
-              <div
-                class="flex items-start px-1 mt-6 text-sm"
-                style={{
-                  "--astro-code-color-background": "transparent",
-                }}
-              >
-                <div
-                  aria-hidden="true"
-                  class="pr-4 font-mono border-r select-none border-slate-300/5 text-slate-600"
-                >
-                  {
-                    Array.from({
-                      length: code.split("\n").length,
-                    }).map((_, index) => (
-                      <Fragment>
-                        {(index + 1).toString().padStart(2, "0")}
-                        <br />
-                      </Fragment>
-                    ))
-                  }
-                </div>
-                <Code lang={codeLanguage} code={code} theme="css-variables" />
-              </div>
+
+              {
+                tabs.map(({ code, isActive }) => (
+                  <div
+                    class:list={[
+                      "flex items-start px-1 mt-6 text-sm",
+                      "data-[panel=inactive]:hidden",
+                    ]}
+                    data-panel={isActive ? "active" : "inactive"}
+                    style={{
+                      "--astro-code-color-background": "transparent",
+                    }}
+                  >
+                    <div
+                      aria-hidden="true"
+                      class="pr-4 font-mono border-r select-none border-slate-300/5 text-slate-600"
+                    >
+                      {Array.from({
+                        length: 8,
+                      }).map((_, index) => (
+                        <Fragment>
+                          {(index + 1).toString().padStart(2, "0")}
+                          <br />
+                        </Fragment>
+                      ))}
+                    </div>
+                    <Code code={code} lang="typescript" theme="css-variables" />
+                  </div>
+                ))
+              }
+
+              <script is:inline>
+                const container = document.currentScript.parentElement;
+                const tabs = container.querySelectorAll("[data-tab]");
+                const panels = container.querySelectorAll("[data-panel]");
+
+                tabs.forEach((tab, i) => {
+                  tab.addEventListener("click", () => {
+                    tabs.forEach((tab) => (tab.dataset.tab = "inactive"));
+                    panels.forEach(
+                      (panel) => (panel.dataset.panel = "inactive")
+                    );
+
+                    tabs[i].dataset.tab = "active";
+                    panels[i].dataset.panel = "active";
+                  });
+                });
+              </script>
             </div>
           </div>
         </div>
