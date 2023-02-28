@@ -2,7 +2,7 @@ import { Icon } from "@/components/Icon";
 
 export function QuickLinks({ children }) {
   return (
-    <div className="grid grid-cols-1 gap-6 my-12 not-prose sm:grid-cols-2">
+    <div className="grid grid-cols-1 gap-6 my-12 not-prose sm:grid-cols-3">
       {children}
     </div>
   );

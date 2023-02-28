@@ -182,7 +182,7 @@ function isActive(section) {
         </div>
       </div>
       <div
-        class="flex-auto max-w-2xl min-w-0 px-4 py-16 lg:max-w-none lg:pl-8 xl:px-16"
+        class="relative flex-auto max-w-2xl min-w-0 px-4 py-16 lg:max-w-none lg:pl-8 xl:px-16"
         id="top"
       >
         <article>
@@ -255,9 +255,17 @@ function isActive(section) {
         </dl>
       </div>
       <div
-        class="hidden md:sticky md:top-[4.5rem] md:-mr-6 md:block md:h-[calc(100vh-4.5rem)] md:flex-none md:overflow-y-auto md:py-16 md:pr-6"
+        class="hidden md:sticky md:top-[4.5rem] md:-mr-6 md:block md:h-[calc(100vh-4.5rem)] md:flex-none md:overflow-y-auto md:py-16 md:pr-6 space-y-4"
       >
-        <nav aria-labelledby="on-this-page-title" class="w-48 space-y-4 mt-9">
+        <h2
+          class="mt-9 text-sm font-medium font-display text-slate-900 dark:text-white"
+        >
+          <a class="btn btn-outline btn-xs" href={`vscode://file/${file}`}
+            >✏️ Edit this page</a
+          >
+        </h2>
+
+        <nav aria-labelledby="on-this-page-title" class="w-48 space-y-4">
           {
             tableOfContents.length > 0 && (
               <>
@@ -309,12 +317,6 @@ function isActive(section) {
               </>
             )
           }
-
-          <h2
-            class="text-sm font-medium font-display text-slate-900 dark:text-white"
-          >
-            <a href={`vscode://file/${file}`}>✏️ Edit this page</a>
-          </h2>
         </nav>
       </div>
     </div>

@@ -1,4 +1,8 @@
 {
-  "recommendations": ["astro-build.astro-vscode", "ZixuanChen.vitest-explorer"],
+  "recommendations": [
+    "astro-build.astro-vscode",
+    "tldraw-org.tldraw-vscode",
+    "ZixuanChen.vitest-explorer"
+  ],
   "unwantedRecommendations": []
 }

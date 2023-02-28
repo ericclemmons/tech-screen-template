@@ -1,0 +1,169 @@
+{
+  "name": "New Document",
+  "fileHandle": {},
+  "document": {
+    "id": "doc",
+    "name": "New Document",
+    "version": 15.5,
+    "pages": {
+      "page": {
+        "id": "page",
+        "name": "Design",
+        "childIndex": 1,
+        "shapes": {
+          "003fd2dd-73f0-418d-1302-a70c5ca3d2e9": {
+            "id": "003fd2dd-73f0-418d-1302-a70c5ca3d2e9",
+            "type": "sticky",
+            "name": "Sticky",
+            "parentId": "page",
+            "childIndex": 1,
+            "point": [
+              32,
+              88
+            ],
+            "size": [
+              200,
+              200
+            ],
+            "text": "/",
+            "rotation": 0,
+            "style": {
+              "color": "black",
+              "size": "small",
+              "isFilled": false,
+              "dash": "draw",
+              "scale": 1,
+              "font": "script",
+              "textAlign": "middle"
+            }
+          },
+          "a1e9116a-0594-4679-0e7b-707dfd98d067": {
+            "id": "a1e9116a-0594-4679-0e7b-707dfd98d067",
+            "type": "sticky",
+            "name": "Sticky",
+            "parentId": "page",
+            "childIndex": 2,
+            "point": [
+              408,
+              88
+            ],
+            "size": [
+              200,
+              200
+            ],
+            "text": "200 { ... }",
+            "rotation": 0,
+            "style": {
+              "color": "black",
+              "size": "small",
+              "isFilled": false,
+              "dash": "draw",
+              "scale": 1,
+              "font": "script",
+              "textAlign": "middle"
+            }
+          },
+          "13b9d338-1a25-41c5-042d-c53ae4f63d65": {
+            "id": "13b9d338-1a25-41c5-042d-c53ae4f63d65",
+            "type": "arrow",
+            "name": "Arrow",
+            "parentId": "page",
+            "childIndex": 3,
+            "point": [
+              232,
+              188
+            ],
+            "rotation": 0,
+            "bend": 0,
+            "handles": {
+              "start": {
+                "id": "start",
+                "index": 0,
+                "point": [
+                  0,
+                  0
+                ],
+                "canBind": true,
+                "bindingId": "d85c7b49-a3b5-498a-0112-ca687ba5b00f"
+              },
+              "end": {
+                "id": "end",
+                "index": 1,
+                "point": [
+                  160,
+                  0
+                ],
+                "canBind": true,
+                "bindingId": "781c105b-bc0a-45bf-1d64-1544c2db58ec"
+              },
+              "bend": {
+                "id": "bend",
+                "index": 2,
+                "point": [
+                  80,
+                  0
+                ]
+              }
+            },
+            "decorations": {
+              "end": "arrow"
+            },
+            "style": {
+              "color": "black",
+              "size": "small",
+              "isFilled": false,
+              "dash": "draw",
+              "scale": 1
+            },
+            "label": "GET /api",
+            "labelPoint": [
+              0.5,
+              0.5
+            ]
+          }
+        },
+        "bindings": {
+          "781c105b-bc0a-45bf-1d64-1544c2db58ec": {
+            "id": "781c105b-bc0a-45bf-1d64-1544c2db58ec",
+            "type": "arrow",
+            "fromId": "13b9d338-1a25-41c5-042d-c53ae4f63d65",
+            "toId": "a1e9116a-0594-4679-0e7b-707dfd98d067",
+            "handleId": "end",
+            "point": [
+              0.5,
+              0.5
+            ],
+            "distance": 16
+          },
+          "d85c7b49-a3b5-498a-0112-ca687ba5b00f": {
+            "id": "d85c7b49-a3b5-498a-0112-ca687ba5b00f",
+            "type": "arrow",
+            "fromId": "13b9d338-1a25-41c5-042d-c53ae4f63d65",
+            "toId": "003fd2dd-73f0-418d-1302-a70c5ca3d2e9",
+            "handleId": "start",
+            "point": [
+              0.5,
+              0.5
+            ],
+            "distance": 16
+          }
+        }
+      }
+    },
+    "pageStates": {
+      "page": {
+        "id": "page",
+        "selectedIds": [],
+        "camera": {
+          "point": [
+            0,
+            0
+          ],
+          "zoom": 1
+        }
+      }
+    },
+    "assets": {}
+  },
+  "assets": {}
+}

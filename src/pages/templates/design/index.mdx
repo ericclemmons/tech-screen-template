@@ -1,0 +1,54 @@
+---
+layout: "@/layouts/Syntax.astro"
+category: Templates
+title: Design Challenge
+---
+
+import { Sandbox } from "@/components/Sandbox";
+import { Design } from "@/components/Design";
+import path from "node:path";
+import design from "./design.tldr?raw";
+
+## Requirements
+
+### User
+
+- (i.e. Users should be able to...)
+
+### Technical
+
+- (e.g. inputs, outputs, load, constraints, etc.)
+
+## Design
+
+<Design
+  client:only
+  design={JSON.parse(design)}
+  url={`file/${path.resolve(file, "../design.tldr")}`}
+/>
+
+### Architecture
+
+- (e.g. components, dependencies)
+
+### Data
+
+- (e.g. models, relationships, props, stores)
+
+### API
+
+- (e.g. REST/GraphQL endpoints)
+
+## Considerations
+
+### Optimization
+
+- (e.g. latency, bundle-size, TTFB, LCP, FCP, etc.)
+
+### Accessibility
+
+- (e.g. `aria` attributes, keyboard navigation, etc.)
+
+### Extensibility
+
+- (e.g. theming, localization, etc.)
