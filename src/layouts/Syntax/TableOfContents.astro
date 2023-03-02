@@ -1,0 +1,134 @@
+---
+function collectHeadings(nodes) {
+  let sections = [];
+
+  for (let node of nodes) {
+    if (node.depth === 2 || node.depth === 3) {
+      let title = node.text;
+      if (title) {
+        let id = node.slug;
+        if (node.depth === 3) {
+          if (!sections[sections.length - 1]) {
+            throw new Error(
+              "Cannot add `h3` to table of contents without a preceding `h2`"
+            );
+          }
+          sections[sections.length - 1].children.push({
+            id,
+            title,
+          });
+        } else {
+          sections.push({ id, title, children: [] });
+        }
+      }
+    }
+
+    sections.push(...collectHeadings(node.children ?? []));
+  }
+
+  return sections;
+}
+
+function isActive(section) {
+  if (section.id === currentSection) {
+    return true;
+  }
+  if (!section.children) {
+    return false;
+  }
+  return section.children.findIndex(isActive) > -1;
+}
+
+const { headings } = Astro.props;
+const tableOfContents = collectHeadings(headings);
+const currentSection = tableOfContents[0]?.id;
+---
+
+<nav aria-labelledby="on-this-page-title" class="w-48 space-y-4">
+  {
+    tableOfContents.length > 0 && (
+      <>
+        <h2
+          id="on-this-page-title"
+          class="text-sm font-medium font-display text-slate-900 dark:text-white"
+        >
+          On this page
+        </h2>
+        <ol role="list" class="mt-4 space-y-3 text-sm">
+          {tableOfContents.map((section) => (
+            <li>
+              <h3>
+                <a
+                  href={`#${section.id}`}
+                  class:list={[
+                    "font-normal",
+                    "text-slate-500",
+                    "hover:text-slate-700",
+                    "dark:text-slate-400",
+                    "dark:hover:text-slate-300",
+                    "data-[active]:text-sky-500",
+                  ]}
+                >
+                  {section.title}
+                </a>
+              </h3>
+              {section.children.length > 0 && (
+                <ol
+                  role="list"
+                  class="pl-5 mt-2 space-y-3 text-slate-500 dark:text-slate-400"
+                >
+                  {section.children.map((subSection) => (
+                    <li>
+                      <a
+                        href={`#${subSection.id}`}
+                        class:list={[
+                          "hover:text-slate-600 dark:hover:text-slate-300",
+                          "data-[active]:text-sky-500",
+                        ]}
+                      >
+                        {subSection.title}
+                      </a>
+                    </li>
+                  ))}
+                </ol>
+              )}
+            </li>
+          ))}
+        </ol>
+      </>
+    )
+  }
+  <script define:vars={{ headings }}>
+    const nav = document.currentScript.parentElement;
+    const targets = headings.map(({ slug }) => document.getElementById(slug));
+    let active = undefined;
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (active) {
+          nav.querySelectorAll(`a[href="#${active.id}"]`).forEach((link) => {
+            delete link.dataset.active;
+          });
+        }
+
+        active =
+          entries.find((entry) => entry.isIntersecting)?.target ?? active;
+
+        if (active) {
+          window.history.replaceState({}, document.title, `#${active.id}`);
+
+          nav.querySelectorAll(`a[href="#${active.id}"]`).forEach((link) => {
+            link.dataset.active = "true";
+          });
+        }
+      },
+      {
+        root: null,
+        rootMargin: "80px",
+        threshold: [1],
+      }
+    );
+
+    targets.forEach((target) => io.observe(target));
+  </script>
+</nav>
