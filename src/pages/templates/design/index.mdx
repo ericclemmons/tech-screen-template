@@ -19,14 +19,6 @@ import design from "./design.tldr?raw";
 
 - (e.g. inputs, outputs, load, constraints, etc.)
 
-## Design
-
-<Design
-  client:only
-  design={JSON.parse(design)}
-  url={`file/${path.resolve(file, "../design.tldr")}`}
-/>
-
 ### Architecture
 
 - (e.g. components, dependencies)
@@ -38,6 +30,14 @@ import design from "./design.tldr?raw";
 ### API
 
 - (e.g. REST/GraphQL endpoints)
+
+## Design
+
+<Design
+  client:only
+  design={JSON.parse(design)}
+  url={`file/${path.resolve(file, "../design.tldr")}`}
+/>
 
 ## Considerations
 
