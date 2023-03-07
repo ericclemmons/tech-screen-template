@@ -13,7 +13,6 @@ import "@/styles/tailwind.css";
 const { file, frontmatter, headings } = Astro.props;
 const { title, description = "Tech Screen Starter" } = frontmatter;
 const template = path.dirname(path.relative("src/pages", file));
-
 const pages = await Astro.glob("/src/pages/**/*.mdx");
 const categories = groupBy(pages, "frontmatter.category");
 const pageToNav = ({
@@ -159,13 +158,6 @@ let section = navigation.find((section) =>
                       {title}
                     </h1>
                   )}
-
-                  <Clone
-                    client:only
-                    defaultCategory={section?.title}
-                    defaultTitle={`${title} Clone`}
-                    template={template}
-                  />
                 </div>
               </header>
             )
@@ -214,15 +206,22 @@ let section = navigation.find((section) =>
         </dl>
       </div>
       <div
-        class="hidden md:sticky md:top-[4.5rem] md:-mr-6 md:block md:h-[calc(100vh-4.5rem)] md:flex-none md:overflow-y-auto md:py-16 md:pr-6 space-y-4"
+        class="hidden md:sticky md:top-[4.5rem] md:-mr-6 md:block md:h-[calc(100vh-4.5rem)] md:flex-none md:overflow-y-auto md:py-16 md:pr-6 space-y-4 mt-9"
       >
-        <h2
-          class="mt-9 text-sm font-medium font-display text-slate-900 dark:text-white"
-        >
-          <a class="btn btn-outline btn-xs" href={`vscode://file/${file}`}
-            >✏️ Edit this page</a
-          >
-        </h2>
+        {
+          template.startsWith("templates/") ? (
+            <Clone
+              client:only
+              defaultCategory={section?.title}
+              defaultTitle={`${title} Clone`}
+              template={template}
+            />
+          ) : (
+            <a class="btn btn-outline btn-xs" href={`vscode://file/${file}`}>
+              ✏️ Edit this page
+            </a>
+          )
+        }
 
         <TableOfContents headings={headings} />
       </div>
