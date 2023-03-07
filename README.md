@@ -1,45 +1,63 @@
-# Astro Starter Kit: Minimal
+# Tech Screen Template
 
-```
-npm create astro@latest -- --template minimal
-```
+> Interviews are stressful and the anxiety to perform well is **high**.
+>
+> While some companies still use tools like [CoderPad](https://coderpad.io/) or Google Docs 🤢, many are encouraging candidates to **B**ring **Y**our **O**wn **E**nvironment.
+>
+> Rather than starting with a vanilla clone of [Create React App](https://create-react-app.dev/), **this template is designed to give you a [Home advantage](https://en.wikipedia.org/wiki/Home_advantage)** with all the familiar tools, keyboard shortcuts, and settings so that you can be **at your best**.
+>
+> This project is the result of real-world use as a Senior Staff Frontend Engineer.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/minimal)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/minimal)
+![screenshot](screenshot.png)
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Getting Started
+
+1. [Use this template](https://github.com/ericclemmons/tech-screen-template/generate) **(Recommended)**
+
+   _I haven't tested these, but I'd like to support the following:_
+
+   - [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/ericclemmons/tech-screen-template)
+   - [![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/github/ericclemmons/tech-screen-template)
+
+1. `pnpm install`
+
+1. [Add Integrations](https://docs.astro.build/en/guides/integrations-guide/) that you may want to author in (e.g. [Solid](https://docs.astro.build/en/guides/integrations-guide/solid-js/), [Svelte](https://docs.astro.build/en/guides/integrations-guide/svelte/), [Vue](https://docs.astro.build/en/guides/integrations-guide/vue/))
+
+1. `pnpm dev`
+
+1. Visit <http://localhost:3000/>
 
 ## 🚀 Project Structure
 
-Inside of your Astro project, you'll see the following folders and files:
+This project is powered by [Astro](https://astro.build) (so that it's **library agnostic**) and a port of [Tailwind UI's Syntax](https://tailwindui.com/templates/syntax):
 
 ```
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+.
+├── public                  // 👈 Any static assets, like images
+├── src
+│   ├── components          // 👈 Custom Astro/React/Vue/Svelte/Preact components
+│   ├── layouts             // 👈 Syntax layout
+│   ├── pages
+│   │   ├── index.mdx       // 👈 Home Page
+│   │   └── templates
+│   │       ├── algorithm   // 👈 Algorithm Challenge Template
+│   │       ├── component   // 👈 UI Challenge Template
+│   │       └── design      // 👈 Design Challenge Template
+│   └── styles
+└── tests
 ```
-
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
 
 ## 🧞 Commands
 
 All commands are run from the root of the project, from a terminal:
 
-| Command                | Action                                           |
-| :--------------------- | :----------------------------------------------- |
-| `npm install`          | Installs dependencies                            |
-| `npm run dev`          | Starts local dev server at `localhost:3000`      |
-| `npm run build`        | Build your production site to `./dist/`          |
-| `npm run preview`      | Preview your build locally, before deploying     |
-| `npm run astro ...`    | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro --help` | Get help using the Astro CLI                     |
+| Command             | Action                                           |
+| :------------------ | :----------------------------------------------- |
+| `pnpm install`      | Installs dependencies                            |
+| `pnpm dev`          | Starts local dev server at `localhost:3000`      |
+| `pnpm test`         | Runs vitest                                      |
+| `pnpm astro ...`    | Run CLI commands like `astro add`, `astro check` |
+| `pnpm astro --help` | Get help using the Astro CLI                     |
 
 ## 👀 Want to learn more?
 
