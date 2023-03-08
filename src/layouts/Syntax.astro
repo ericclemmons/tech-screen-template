@@ -30,7 +30,9 @@ const navigation = [
     .sort(([title1, title2]) => title1.localeCompare(title2))
     .map(([title, pages]) => ({
       title,
-      links: pages.map(pageToNav),
+      links: pages
+        .map(pageToNav)
+        .sort((a, b) => a.title.localeCompare(b.title)),
     })),
   {
     title: "Documentation",
